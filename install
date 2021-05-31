@@ -1,0 +1,28 @@
+#!/bin/bash
+
+mkdir build
+
+#get gurobi
+echo -n "enter Gurobi path (.../gurobi911/linux64):  "
+read gurobipath
+sgurobipath=${gurobipath//\//\\\/}
+sed -i "s/GUROBIPATH/${sgurobipath}/g" src/CMakeLists.txt
+echo src/CMakeLists.txt
+
+#get z3
+echo -n "enter Z3 path (.../z3/build):  "
+read z3path
+sz3path=${z3path//\//\\\/}
+sed -i "s/Z3PATH/${sz3path}/g" src/CMakeLists.txt
+echo src/CMakeLists.txt
+
+#build source
+pushd src
+path=`pwd`
+spath=${path//\//\\\/}
+sed -i "s/SOURCEPATH/\"${spath}\"/g" basic/config.cpp
+popd
+
+pushd build
+cmake ../src
+make
