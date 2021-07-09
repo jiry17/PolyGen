@@ -7,16 +7,16 @@ mkdir build
 pushd recommend/euphony
 ./build
 popd
-
+'''
 
 #build esolver
 pushd recommend/esolver
 mkdir thirdparty/libeusolver/build
 ./scripts/build.sh
 popd
+
+
 '''
-
-
 #build eusolver
 pushd recommend/eusolver
 mkdir thirdparty/libeusolver/build
@@ -47,4 +47,3 @@ popd
 pushd build
 cmake ../src
 make
-'''
