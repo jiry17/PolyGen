@@ -1,0 +1,197 @@
+#!/usr/bin/env python3
+
+from parser import *
+from example_model import *
+from eusolver_runner import *
+from esolver_runner import *
+from mysolver_runner import *
+import sys
+#from cvc4_runner import *
+from euphony_runner import run_euphony_cegis, run_euphony_random
+from runner import *
+from config import *
+import argparse
+
+from z3.z3types import Config
+from config import KRepeatNum
+import config
+from util import load_cache
+import itertools as it
+import matplotlib.pyplot as plt
+import math
+
+def average(data_list):
+    return sum(data_list) / len(data_list)
+
+def load_result(name):
+    return load_cache("result_cache/" + name + ".json")
+
+def get_info(result_info: list):
+    assert len(result_info) == KRepeatNum
+    example_num_list = []
+    time_cost_list = []
+    for info in result_info:
+        if info["status"] == "fail": continue
+        e,t = info["example"], info["time"]
+        if (e> config.KExampleLimit or t > config.KTimeLimit):
+            continue
+        example_num_list.append(info["example"])
+        time_cost_list.append(info["time"])
+    if len(example_num_list) == 0: 
+        
+        return None
+    return average(example_num_list), average(time_cost_list)
+
+def get_geo_average(data_list):
+    log_sum = 0
+    for data in data_list:
+        log_sum += math.log(data)
+    return math.exp(log_sum / len(data_list))
+
+def compare(result_map: dict):
+    solver_list = list(result_map.keys())
+    print(solver_list)
+    for solver in solver_list:
+        solved_num = 0
+        for info in result_map[solver].values():
+            if get_info(info) is not None: solved_num += 1
+        print(solver, "solves", solved_num)
+    for solver_1, solver_2 in it.permutations(solver_list, 2):
+        if solver_1 != "$PolyGen$": continue
+        print("Compare", solver_1, "to", solver_2)
+        print(len(result_map[solver_1]), len(result_map[solver_2]))
+        #assert len(result_map[solver_1]) == len(result_map[solver_2])
+        commonly_solved = 0
+        time_cmp = []
+        example_cmp = []
+        for benchmark in result_map[solver_1]:
+            #assert benchmark in result_map[solver_2]
+            if (not (benchmark in result_map[solver_2])) :continue
+            info_1 = get_info(result_map[solver_1][benchmark])
+            info_2 = get_info(result_map[solver_2][benchmark])
+            if info_1 is None or info_2 is None: continue
+            if info_1[0] > info_2[0]:
+                1
+                #print(benchmark, info_1[0], info_2[0])
+            commonly_solved += 1
+            example_cmp.append(info_1[0] / info_2[0])
+            time_cmp.append(info_1[1] / info_2[1])
+        print("commonly solved:", commonly_solved, "time cost:", round(1/get_geo_average(time_cmp),3), 
+                    "example num:",round(1/ get_geo_average(example_cmp),3))
+
+def draw(result_map, title, is_log=False, data_id = 0):
+    ls_list = ['-', '--', '-.', '--', '-.', '--']
+    lc = ['cornflowerblue', 'indianred', 'orange', 'forestgreen', 'violet']
+    pc = ['mediumblue', 'darkred', 'peru', 'darkgreen', 'indigo']
+    pos = 0
+    data_name = ["example", "time"]
+    y_name = ["#Example", "Time(s)"]
+    plt.figure(figsize=(4.5, 3))
+    #plt.suptitle(title)
+    name_list = []
+    for name, res in result_map.items():
+        name_list.append(name)
+        result = []
+        for benchmark in res:
+            info = get_info(res[benchmark])
+            if info is None: continue
+            result.append(info[data_id])
+        result = sorted(result)
+        #plt.plot(list(range(1, 1 + len(result))), result, label=name)
+        step = 10
+        y = result
+        x = list(range(1, len(y) + 1))
+        X = [x[i] for i in range(len(x)) if (i + 1) % step == 0]
+        Y = [y[i] for i in range(len(y)) if (i + 1) % step == 0]
+        plt.scatter(X, Y, marker='^', s=5 , color=pc[pos])
+        plt.plot(x, y, ls=ls_list[pos], color=lc[pos], alpha=0.5)
+        pos = pos + 1
+
+    if is_log: plt.yscale('log')
+    plt.xlabel('#Benchmark')
+    plt.ylabel(y_name[data_id])
+    plt.legend(name_list,loc = "best")
+    plt.tight_layout()
+
+    if not os.path.exists("figure"):
+        os.system("mkdir figure")
+    plt.savefig("figure/"+title + data_name[data_id] + ".png")
+    plt.show()
+
+def get_fail(res):
+    tmp = 0
+    for benchmark in res:
+        info = get_info(res[benchmark])
+        if info is None: 
+            print("fail", benchmark)
+            tmp = tmp +1
+        #print(benchmark, info)
+    print(tmp)
+
+def analysis1():    
+    cegis_result = {"$PolyGen$": load_result("main_cegis"), "$Esolver$": load_result("esolver_cegis"),
+                    "$Eusolver$": load_result("eusolver_cegis"), "$Euphony$": load_result("euphony_cegis")}
+
+    random_result = {"$PolyGen$": load_result("main_random"),  "$Esolver$": load_result("esolver_random"),
+                    "$Eusolver$": load_result("eusolver_random"), "$Euphony$": load_result("euphony_random")}
+    compare(cegis_result)
+    compare(random_result)
+    draw(cegis_result,"exp1_cegis_"  ,1, 0)
+    draw(random_result,"exp1_random_"  ,1, 0)
+    draw(cegis_result,"exp1_cegis_"  ,1, 1)
+    draw(random_result,"exp1_random_"  ,1, 1)
+    
+def analysis2():
+    cegis_result = {"$PolyGen$": load_result("main_cegis"), "$PolyGen_{-T}$": load_result("ablation1_cegis"), 
+                    "$PolyGen_{-U}$": load_result("ablation2_cegis")}
+    random_result = {"$PolyGen$": load_result("main_random"), "$PolyGen_{-T}$": load_result("ablation1_random"), 
+                    "$PolyGen_{-U}$": load_result("ablation2_random")}
+    draw(cegis_result,"ablation_cegis_"  ,1, 0)
+    draw(random_result,"ablation_random_"  ,1, 0)
+    draw(cegis_result,"ablation_cegis_"  ,1, 1)
+    draw(random_result,"ablation_random_"  ,1, 1)
+    compare(random_result)
+    compare(cegis_result)
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-exp', '--experiment', type=int, choices=[1, 2], default=0)
+    parser.add_argument('-c', '--cache', type=str, default="Continue", choices=["Restart", "Continue", "R", "C"])
+    return parser.parse_args()
+
+if __name__ == "__main__":
+    if not os.path.exists("result_cache"):
+        os.system("mkdir result_cache")
+
+    #benchmark_path = "../benchmark/CLIA_benchmark"
+    benchmark_path = "../benchmark/small"
+    args = parse_args()
+
+    if args.cache == "R": clear_cache = True
+    else: clear_cache = False
+    change_ablation_type(0)
+    run(benchmark_path, run_main_cegis, "main_cegis",clear_cache)
+    run(benchmark_path, run_main_random, "main_random",clear_cache)
+
+    if args.experiment == 1 or args.experiment == 0:
+        #run(benchmark_path, run_eusolver_cegis, "eusolver_cegis",clear_cache)
+        #run(benchmark_path, run_eusolver_random, "eusolver_random",clear_cache)
+
+        run(benchmark_path, run_esolver_cegis, "esolver_cegis",clear_cache)
+        run(benchmark_path, run_esolver_random, "esolver_random",clear_cache)
+
+        #run(benchmark_path, run_euphony_cegis, "euphony_cegis",clear_cache)
+        #run(benchmark_path, run_euphony_random, "euphony_random",clear_cache)
+
+        analysis1()
+
+    if args.experiment == 2 or args.experiment == 0 :
+        change_ablation_type(1)
+        run(benchmark_path, run_main_cegis, "ablation1_cegis",clear_cache)
+        run(benchmark_path, run_main_random, "ablation1_random",clear_cache)
+        change_ablation_type(2)
+        run(benchmark_path, run_main_cegis, "ablation2_cegis",clear_cache)
+        run(benchmark_path, run_main_random, "ablation2_random",clear_cache)
+
+        analysis2()
+
