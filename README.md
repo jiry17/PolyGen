@@ -7,17 +7,17 @@
 1. Install dependencies
 
 ```bash
-$ apt-get install cmake libgoogle-glog-dev python3-pip libboost-all-dev libjsoncpp-dev
+$ apt-get install cmake libgoogle-glog-dev python3-pip libboost-all-dev libjsoncpp-dev libboost-all-dev
 $ pip3 install pyparsing z3-solver matplotlib 
 ```
-
-1. Clone Polygen 
+2. Install gurobi from https://www.gurobi.com/
+3. Clone Polygen 
 
 ```bash
-$ git clone https://github.com/jiry17/PolyGen
+$ git clone --recursive https://github.com/jiry17/PolyGen
 ```
 
-2. Build the whole project. Under the root directory of the project:
+4. Build the whole project. Under the root directory of the project. The directory of gurobi is needed. 
 
 ```bash
 $ ./install
@@ -39,13 +39,18 @@ $ ./install
    (define-fun f ((name String)) String (str.substr name 0 (str.indexof name " " 0)))
    ```
 
-2. Test whether *Eusolver* is successfully installed:
+2. Test whether *Eusolver* is successfully installed, :
 
    ```bash
    $ cd recommend/eusolver
    $ ./eusolver benchmarks/max/max_2.sl
    ```
+   *Esolver* is built-in part of eusolver 
 
+   ```bash
+   $ cd recommend/esolver
+   $ ./eusolver benchmarks/max/max_2.sl
+   ```
    The expected output is a program which takes two integers as the input and returns the larger one:
 
    ```

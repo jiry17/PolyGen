@@ -2,12 +2,18 @@
 
 mkdir build
 
-'''
+: '
 #build euphony
 pushd recommend/euphony
 ./build
 popd
-'''
+
+#build eusolver
+pushd recommend/eusolver
+mkdir thirdparty/libeusolver/build
+./scripts/build.sh
+popd
+'
 
 #build esolver
 pushd recommend/esolver
@@ -16,26 +22,29 @@ mkdir thirdparty/libeusolver/build
 popd
 
 
-'''
-#build eusolver
-pushd recommend/eusolver
-mkdir thirdparty/libeusolver/build
-./scripts/build.sh
-popd
-'''
+
+
 #get gurobi
 echo -n "enter Gurobi path (.../gurobi911/linux64):  "
 read gurobipath
 sgurobipath=${gurobipath//\//\\\/}
 sed -i "s/GUROBIPATH/${sgurobipath}/g" src/CMakeLists.txt
-echo src/CMakeLists.txt
+
+
 
 #get z3
-echo -n "enter Z3 path (.../z3/build):  "
-read z3path
+pushd z3
+python scripts/mk_make.py
+pushd build
+z3path=`pwd`
+echo ${z3path}
+make
+popd
+popd
 sz3path=${z3path//\//\\\/}
 sed -i "s/Z3PATH/${sz3path}/g" src/CMakeLists.txt
-echo src/CMakeLists.txt
+
+
 
 #build source
 pushd src
