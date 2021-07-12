@@ -8,22 +8,26 @@ The artifact for OOPSLA 21 submission #542 "Generalizable Synthesis Through Unif
 
 1. Install dependencies
 
-```bash
-$ apt-get install cmake libgoogle-glog-dev python3-pip libboost-all-dev libjsoncpp-dev libboost-all-dev libgoogle-perftools-dev
-$ pip3 install pyparsing z3-solver matplotlib 
-```
+   ```bash
+   $ apt-get install cmake libgoogle-glog-dev python3-pip libboost-all-dev libjsoncpp-dev libboost-all-dev libgoogle-perftools-dev
+   $ pip3 install pyparsing z3-solver matplotlib 
+   ```
+
+
 2. Install *gurobi* from https://www.gurobi.com/
+
 3. Clone *Polygen* 
 
-```bash
-$ git clone --recursive https://github.com/jiry17/PolyGen
-```
+   ```bash
+   $ git clone --recursive https://github.com/jiry17/PolyGen
+   ```
+
 
 4. Build the whole project under the root directory of the project. The installation requires the path of *gurobi*. 
 
-```bash
-$ ./install
-```
+   ```bash
+   $ ./install
+   ```
 
 #### Run tests
 
@@ -85,7 +89,7 @@ $ ./install
 
 #### Run synthesizers on a single SyGuS file 
 
-```$bash
+```bash
 $ cd build
 # Run Polygen 
 $ ./run INPUT OUTPUT DOMAIN
