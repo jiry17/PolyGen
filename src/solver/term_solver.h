@@ -4,22 +4,31 @@
 
 #include "program.h"
 #include "data.h"
+#include "gurobi_c++.h"
 
+// An abstracted class for term solvers.
 class TermSolver {
-protected:
-    std::vector<Program*> getTermList(int size_limit);
-    int solveCLIAParam(const std::vector<PointExample> &example_list, std::vector<int> &result, bool is_require_single=false);
-    int solveCLIAParam(const std::vector<PointExample*> &example_list, std::vector<int> &result, bool is_require_single=false);
-    Program* merge(const std::vector<Program*>& atom_list, const std::vector<int>& param_list);
 public:
     std::vector<int> param_list;
     virtual std::vector<Program*> getTerms(const std::vector<PointExample*>& example_list) = 0;
     virtual void clearCache() {}
 };
 
-class GaussTermSolver: public TermSolver {
+
+// The client term solver on CLIA, which uses gurobi to find the simplest program satisfying several given examples.
+namespace solver {
+    int getOptimalAssignment(GRBEnv& env, const std::vector<PointExample*>& example_list, std::vector<int>& result);
+}
+
+// An abstracted term solver that initialize gurobi.
+class BasicILPTermSolver: public TermSolver {
 public:
-    virtual std::vector<Program*> getTerms(const std::vector<PointExample*>& example_list);
+    GRBEnv env;
+    BasicILPTermSolver(): env(GRBEnv(true)) {
+        env.set("LogFile", "gurobi.log");
+        env.start();
+    }
+    virtual std::vector<Program*> getTerms(const std::vector<PointExample*>& example_list) = 0;
 };
 
 

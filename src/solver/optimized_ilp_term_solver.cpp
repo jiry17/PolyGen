@@ -328,7 +328,6 @@ namespace {
     }
 
     std::set<TermPlan*> visited_plan;
-
     bool search(GRBEnv& env, TermPlan* plan, const std::vector<PointExample*>& example_space, std::vector<Program*>& result, int N, int rem_branch) {
         if (rem_branch == 0 || plan->rem_example.empty()) {
             assert(plan->rem_example.empty());

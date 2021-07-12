@@ -1,8 +1,9 @@
 #ifndef CPP_OPTIMIZED_ILP_TERM_SOLVER_H
 #define CPP_OPTIMIZED_ILP_TERM_SOLVER_H
 
-#include "ilp_term_solver.h"
+#include "term_solver.h"
 
+// The term solver used in PolyGen.
 class OptimizedTermSolver: public BasicILPTermSolver {
     int k_limit;
     std::vector<Program*> getTerms(const std::vector<PointExample*>& example_list, int N, int K);

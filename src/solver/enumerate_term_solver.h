@@ -5,6 +5,7 @@
 #include "gurobi_c++.h"
 #include "glog/logging.h"
 
+// Term solver used in Eusolver, which is used only in ablation_T
 class EnumerateTermSolver: public TermSolver {
 public:
     int prog_num;

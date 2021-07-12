@@ -15,15 +15,20 @@ namespace util {
     Program* mergeCondition(const std::vector<Program*>& clause_list);
 }
 
+// An abstracted class for unifiers.
 class Unifier {
+    // Exclude those predicates that are duplicate on P and N.
     std::vector<CmpInfo*> excludeDuplicated(const std::vector<Program*>& program_list);
 protected:
+    // Verify whether examples P, N can be classified via predicates in cmp_list
     bool verifySolvable(const std::vector<CmpInfo*>& cmp_list);
 public:
     std::vector<Program*> extra_list;
     std::vector<int> param_list;
     std::vector<PointExample*> P, N;
+    // Get all predicates no larger than cmp_size in the grammar.
     std::vector<CmpInfo*> getCmpList(int cmp_size);
+
     virtual Program* getCondition(const std::vector<PointExample*>& positive_example, const std::vector<PointExample*>& negative_example) = 0;
     virtual std::string getType() = 0 ;
     virtual Program* unify(const std::vector<PointExample*>& example_list, const std::vector<Program*>& term_list, const std::vector<Program*>& pred_list) = 0;

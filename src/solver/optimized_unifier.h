@@ -3,6 +3,7 @@
 
 #include "unifier.h"
 
+// The unifier used in PolyGen.
 class OptimizedUnifier: public Unifier {
 public:
     virtual Program* getCondition(const std::vector<PointExample*>& positive_example, const std::vector<PointExample*>& negative_example);

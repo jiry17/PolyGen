@@ -3,6 +3,7 @@
 
 #include "unifier.h"
 
+// Unifier used in Eusolver, which is used only in ablation_U
 class DecisionTreeUnifier: public Unifier {
 public:
     //never call this

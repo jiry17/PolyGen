@@ -16,7 +16,7 @@
 #include <unordered_map>
 #include "program.h"
 
-#include "ilp_term_solver.h"
+#include "term_solver.h"
 #include "enumerate_term_solver.h"
 #include "term_solver.h"
 #include "unifier.h"
@@ -44,6 +44,7 @@ public:
     void clearCache() {term_solver->clearCache();}
 };
 
+// Main class for PolyGen
 class CLIASolverBuilder {
 public:
     TermSolver* term_solver;

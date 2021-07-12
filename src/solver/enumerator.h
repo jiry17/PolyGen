@@ -19,6 +19,7 @@ public:
 typedef std::vector<Program*> ProgramList;
 typedef std::vector<ProgramList> ProgramStorage;
 
+// A basic enumerator, which enumerates programs from small to large until a program is verified to be correct by v.
 class Enumerator{
 public:
     Grammar* grammar;

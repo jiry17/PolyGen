@@ -164,37 +164,6 @@ namespace {
         return new CmpInfo(util::mergeClause(result_program), now_p, rem_n);
     }
 
-    CmpInfo* simplifyPlan(ClausePlan* plan, const std::vector<CmpInfo*>& cmp_info) {
-        int n = plan->cmp_id_list.size();
-        std::vector<Bitset> prefix(n);
-        int n_n = plan->N_info.size();
-        int p_n = plan->P_info.size();
-        prefix[0] = Bitset(n_n, true);
-        std::vector<CmpInfo*> used_info_list;
-        for (int i = 0; i < n; ++i) {
-            used_info_list.push_back(cmp_info[plan->cmp_id_list[i]]);
-        }
-        for (int i = 1; i < n; ++i) {
-            auto* info = used_info_list[i - 1];
-            prefix[i] = prefix[i - 1] & info->N;
-        }
-        std::vector<CmpInfo*> result;
-        if (!searchForSimpleClause(int(used_info_list.size()) - 1, prefix, prefix[0], used_info_list, result)) {
-            return nullptr;
-        }
-        Bitset now_n = prefix[0];
-        Bitset now_p = Bitset(p_n, true);
-        std::vector<Program*> result_program;
-        for (auto* cmp: result) {
-            now_n = now_n & cmp->N;
-            now_p = now_p & cmp->P;
-            result_program.push_back(cmp->cmp);
-        }
-        delete plan;
-        return new CmpInfo(util::mergeClause(result_program), now_p, now_n);
-    }
-
-
     std::vector<CmpInfo*> reorder(const std::vector<CmpInfo*>& clause_list) {
         std::vector<std::pair<int, int>> info_list;
         for (int i = 0; i < clause_list.size(); ++i) {
