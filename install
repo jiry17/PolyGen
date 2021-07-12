@@ -2,26 +2,20 @@
 
 mkdir build
 
-: '
-#build euphony
-pushd recommend/euphony
+#build euphony and eusolver
+pushd recommend
+git clone --recursive https://gitee.com/jiry_2/my-euphony.git
+pushd my-euphony
 ./build
 popd
-
-#build eusolver
-pushd recommend/eusolver
-mkdir thirdparty/libeusolver/build
-./scripts/build.sh
 popd
-'
+
 
 #build esolver
 pushd recommend/esolver
 mkdir thirdparty/libeusolver/build
 ./scripts/build.sh
 popd
-
-
 
 
 #get gurobi
@@ -33,12 +27,14 @@ sed -i "s/GUROBIPATH/${sgurobipath}/g" src/CMakeLists.txt
 
 
 #get z3
+git clone https://gitee.com/jiry_2/z3.git
 pushd z3
 python scripts/mk_make.py
 pushd build
 z3path=`pwd`
 echo ${z3path}
-make
+make -j 8
+sudo make install
 popd
 popd
 sz3path=${z3path//\//\\\/}

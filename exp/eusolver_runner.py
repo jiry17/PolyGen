@@ -4,7 +4,7 @@ from parser import sexp_from_string
 from config import KMemoryLimit, KTimeLimit, KExampleLimit
 import time
 from util import verify, flush_line
-eusolver_path = "../recommend/eusolver"
+eusolver_path = "../recommend/my-euphony"
 
 def parse_result(result_file):
     if not os.path.exists(result_file): return None
@@ -23,7 +23,7 @@ def run_eusolver_with_file(file_path, oup_name=None):
     if oup_name is None:
         oup_name = str(random.randint(0, 10 ** 9)) + ".out"
     oup_file = "/tmp/" + oup_name
-    command = ["cd", eusolver_path, ";", 'ulimit -v ' + str(KMemoryLimit) + ';' + "timeout " + str(KTimeLimit), "./eusolver", file_path, ">", oup_file]
+    command = ["cd", eusolver_path, ";", ". bin/setenv;" ,'ulimit -v ' + str(KMemoryLimit) + ';' + "timeout " + str(KTimeLimit), "./bin/run_int_eusolver", file_path, ">", oup_file]
     command = " ".join(command)
     start_time = time.time()
     os.system(command)

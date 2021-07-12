@@ -13,7 +13,6 @@ from config import *
 import argparse
 
 from z3.z3types import Config
-from config import KRepeatNum
 import config
 from util import load_cache
 import itertools as it
@@ -157,41 +156,46 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-exp', '--experiment', type=int, choices=[1, 2], default=0)
     parser.add_argument('-c', '--cache', type=str, default="Continue", choices=["Restart", "Continue", "R", "C"])
+    #parser.add_argument('-r', '--repeatnum', type=int,  default=5)
+    parser.add_argument('-s', '--skipfailed', type=int, choices=[0, 1],  default=1)
     return parser.parse_args()
 
 if __name__ == "__main__":
     if not os.path.exists("result_cache"):
         os.system("mkdir result_cache")
 
-    #benchmark_path = "../benchmark/CLIA_benchmark"
-    benchmark_path = "../benchmark/small"
+    benchmark_path = "../benchmark/CLIA_benchmark"
+    #benchmark_path = "../benchmark/small"
+    
     args = parse_args()
 
     if args.cache == "R": clear_cache = True
     else: clear_cache = False
+    skip_failed_cegis = args.skipfailed
+
     change_ablation_type(0)
-    run(benchmark_path, run_main_cegis, "main_cegis",clear_cache)
-    run(benchmark_path, run_main_random, "main_random",clear_cache)
+    run(benchmark_path, run_main_cegis, "main_cegis", clear_cache, skip_failed_cegis)
+    run(benchmark_path, run_main_random, "main_random", clear_cache, skip_failed_cegis)
 
     if args.experiment == 1 or args.experiment == 0:
-        #run(benchmark_path, run_eusolver_cegis, "eusolver_cegis",clear_cache)
-        #run(benchmark_path, run_eusolver_random, "eusolver_random",clear_cache)
+        run(benchmark_path, run_eusolver_cegis, "eusolver_cegis", clear_cache, skip_failed_cegis)
+        run(benchmark_path, run_eusolver_random, "eusolver_random", clear_cache, skip_failed_cegis)
 
-        run(benchmark_path, run_esolver_cegis, "esolver_cegis",clear_cache)
-        run(benchmark_path, run_esolver_random, "esolver_random",clear_cache)
+        run(benchmark_path, run_esolver_cegis, "esolver_cegis", clear_cache, skip_failed_cegis)
+        run(benchmark_path, run_esolver_random, "esolver_random", clear_cache, skip_failed_cegis)
 
-        #run(benchmark_path, run_euphony_cegis, "euphony_cegis",clear_cache)
-        #run(benchmark_path, run_euphony_random, "euphony_random",clear_cache)
+        run(benchmark_path, run_euphony_cegis, "euphony_cegis", clear_cache, skip_failed_cegis)
+        run(benchmark_path, run_euphony_random, "euphony_random", clear_cache, skip_failed_cegis)
 
         analysis1()
 
     if args.experiment == 2 or args.experiment == 0 :
         change_ablation_type(1)
-        run(benchmark_path, run_main_cegis, "ablation1_cegis",clear_cache)
-        run(benchmark_path, run_main_random, "ablation1_random",clear_cache)
+        run(benchmark_path, run_main_cegis, "ablation1_cegis",clear_cache, skip_failed_cegis)
+        run(benchmark_path, run_main_random, "ablation1_random",clear_cache, skip_failed_cegis)
         change_ablation_type(2)
-        run(benchmark_path, run_main_cegis, "ablation2_cegis",clear_cache)
-        run(benchmark_path, run_main_random, "ablation2_random",clear_cache)
+        run(benchmark_path, run_main_cegis, "ablation2_cegis",clear_cache, skip_failed_cegis)
+        run(benchmark_path, run_main_random, "ablation2_random",clear_cache, skip_failed_cegis)
 
         analysis2()
 

@@ -7,17 +7,17 @@
 1. Install dependencies
 
 ```bash
-$ apt-get install cmake libgoogle-glog-dev python3-pip libboost-all-dev libjsoncpp-dev libboost-all-dev
+$ apt-get install cmake libgoogle-glog-dev python3-pip libboost-all-dev libjsoncpp-dev libboost-all-dev libgoogle-perftools-dev
 $ pip3 install pyparsing z3-solver matplotlib 
 ```
-2. Install gurobi from https://www.gurobi.com/
-3. Clone Polygen 
+2. Install *gurobi* from https://www.gurobi.com/
+3. Clone *Polygen* 
 
 ```bash
 $ git clone --recursive https://github.com/jiry17/PolyGen
 ```
 
-4. Build the whole project. Under the root directory of the project. The directory of gurobi is needed. 
+4. Build the whole project under the root directory of the project. The installation require the path of *guribi*. 
 
 ```bash
 $ ./install
@@ -25,27 +25,32 @@ $ ./install
 
 #### Run tests
 
-1. Test whether *Euphony* is successfully installed:
+1. Test whether *Eusolver* is successfully installed :
 
    ```bash
-   $ cd recommend/euphony
+   $ cd recommend/my-euphony
    $ . bin/setenv  
-   $ ./bin/run_string benchmarks/string/train/firstname.sl
+   $ ./bin/run_int ../../benchmark/cross ../../benchmark/CLIA_benchmark/max3.sl
    ```
 
-   The expected output is a program which splits an input string by a space and returns the first substring:
+   The expected output is a program which returns the maximum of three:
 
    ```
-   (define-fun f ((name String)) String (str.substr name 0 (str.indexof name " " 0)))
+   (define-fun max3 ((x Int) (y Int) (z Int)) Int (ite (<= z x) (ite (<= y x) x y) (ite (<= z y) y z)))
    ```
 
-2. Test whether *Eusolver* is successfully installed, :
+2. Test whether *Eusolver* is successfully installed :
+
 
    ```bash
-   $ cd recommend/eusolver
-   $ ./eusolver benchmarks/max/max_2.sl
+   $ cd recommend/my-euphony
+   $ . bin/setenv  
+   $ ./bin/run_int_eusolver ../../benchmark/CLIA_benchmark/max3.sl
    ```
-   *Esolver* is built-in part of eusolver 
+   The  expected output is same as 1
+
+
+3.   Test whether *Esolver* is successfully installed :
 
    ```bash
    $ cd recommend/esolver
@@ -58,7 +63,7 @@ $ ./install
         (ite (<= a1 a0) a0 a1))
    ```
 
-3. Test whether the project is successfully built:
+4. Test whether the project is successfully built:
 
    ```bash
    $ cd build
@@ -71,7 +76,7 @@ $ ./install
    1
    (+ Param0 Param1)
    ```
-   
+
     Number 1 indicates the synthesize process takes 1 example in total.
 
 ### Run synthesizers
@@ -94,21 +99,21 @@ Some examples are listed below:
 ```$bash
 $ cd build
 # Run original Polygen with cegis
-$ ./run max5.sl ans.txt cegis
+$ ./run max5.sl ans.sl cegis
 ```
 
 #### Run experiments 
 
 ```bash
 $ cd run
-$ ./run_exp  [-exp {1,2}]  [-r {R <Restart>,C <Clear>}]
+$ ./run_exp  [-exp {1,2}]  [-r {R <Restart>,C <Clear>}] [-s {0,1}]
 # For example, to reproduce all results:
 $ ./run_exp -c R
 ```
 
 1. `-exp`: the id of the experiment you want to run. All experiments will be executed by default.
-
 2. `-c`: whether to clear the cache: `R` represents yes while `C` represents no, and the default value is `C`. 
+3. `-s`: whether to skip random test when the same benchmark fails in cegis test:  `1` represents yes while  `0`  represents  no. The default value is `1` . 
 
 Some parameters can be set in config.py
 
@@ -117,7 +122,7 @@ Some parameters can be set in config.py
 3. `KIntMin `: lower bound of the input. The default value is -50.
 4. `KIntMax `: upper bound of the input. The default value is 50.
 5. `KExampleLimit `: The limit of examples involves in the synthesizing process. The default value is 10000.
-6. `KRepeatNum `: the number of repetitions of each execution. The default value is 5. Note that all the algorithms are random, the smaller this value is, the more volatile the result will be.
+6. `KRepeatNum `: the number of repetitions of each execution. The default value is 1 for efficiency. Note that all the algorithms are random, the smaller this value is, the more volatile the result will be. Our experiment set this value as 5.
 
 The result of each single execution is cached in `exp/result_cache` . 
 

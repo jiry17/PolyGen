@@ -4,7 +4,7 @@ from parser import sexp_from_string
 from config import KMemoryLimit, KTimeLimit, KExampleLimit
 import time
 from util import verify, flush_line
-euphony_path = "../recommend/euphony"
+euphony_path = "../recommend/my-euphony"
 model_path = "../benchmark/cross/"
 def parse_result(result_file):
     if not os.path.exists(result_file): return None
@@ -36,9 +36,9 @@ def run_euphony_with_file(file_path, benchmark_name, oup_name=None):
     oup_file = "/tmp/" + oup_name
     model_pos = get_model_path(benchmark_name)
     command = ["cd", euphony_path, ";", ". bin/setenv;", 'ulimit -v ' + str(KMemoryLimit) + ';' + "timeout " + str(KTimeLimit),
-               "bin/run_with_new_phog", model_pos, file_path, ">", oup_file]
+               "bin/run_int", model_pos, file_path, ">", oup_file]
     command = " ".join(command)
-    print(command)
+    #print(command)
     start_time = time.time()
     os.system(command)
     #exit(0)
