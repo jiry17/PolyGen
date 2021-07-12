@@ -5,7 +5,7 @@ from config import KMemoryLimit, KTimeLimit, KExampleLimit
 import time
 from util import verify, flush_line
 euphony_path = "../recommend/my-euphony"
-model_path = "../benchmark/cross/"
+model_path = "../../benchmark/cross/"
 def parse_result(result_file):
     if not os.path.exists(result_file): return None
     with open(result_file, "r") as inp:
@@ -23,6 +23,7 @@ def get_model_path(benchmark_name):
     for i in range(3):
         train_set = os.path.join(model_path, str(i) + "/" + benchmark_name)
         if not os.path.exists(train_set):
+            assert file_pos is None
             file_pos = i
     assert file_pos is not None
     pos = os.path.join(model_path, str(file_pos) + ".model")
@@ -33,9 +34,8 @@ def run_euphony_with_file(file_path, benchmark_name, oup_name=None):
     if oup_name is None:
         oup_name = str(random.randint(0, 10 ** 9)) + ".out"
     oup_file = "/tmp/" + oup_name
-    model_pos = get_model_path(benchmark_name)
     command = ["cd", euphony_path, ";", ". bin/setenv;", 'ulimit -v ' + str(KMemoryLimit) + ';' + "timeout " + str(KTimeLimit),
-               "bin/run_int", model_pos, file_path, ">", oup_file]
+               "bin/run_int", model_path, file_path, ">", oup_file]
     command = " ".join(command)
     #print(command)
     start_time = time.time()
