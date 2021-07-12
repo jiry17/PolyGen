@@ -69,10 +69,10 @@ $ ./install
 
    ```bash
    $ cd build
-   $ ./run ../benchmark/CLIA_benchmark/sum.sl result.sl cegis
+   $ ./run ../benchmark/CLIA_benchmark/sum.sl res cegis
    ```
 
-   The expected output is
+   The expected output in file `res` is
 
    ```
    1
@@ -101,7 +101,7 @@ Some examples are listed below:
 ```$bash
 $ cd build
 # Run original Polygen with cegis
-$ ./run max5.sl ans.sl cegis
+$ ./run max5.sl res cegis
 ```
 
 #### Run experiments 
