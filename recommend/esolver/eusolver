@@ -1,0 +1,7 @@
+
+#!/bin/bash
+
+PYTHONPATH=/mnt/d/algosyn/artifact/brutaltest/PolyGen/recommend/esolver/../euphony/thirdparty/z3:/mnt/d/algosyn/artifact/brutaltest/PolyGen/recommend/esolver/thirdparty/libeusolver/build:$PYTHONPATH python3 src/benchmarks.py $@
+
+# EOF
+
