@@ -121,8 +121,8 @@ Some parameters can be set in config.py
 
 1. `KMemoryLimit`: the memory limit. The default value is 8 GB
 2. `KTimeLimit`: the time limit. The default value is 120 seconds.
-3. `KIntMin `: lower bound of the input. The default value is -50.
-4. `KIntMax `: upper bound of the input. The default value is 50.
+3. `KIntMin `: lower bound of the input. The default value is -20.
+4. `KIntMax `: upper bound of the input. The default value is 20.
 5. `KExampleLimit `: The limit of examples involves in the synthesizing process. The default value is 10000.
 6. `KRepeatNum `: the number of repetitions of each execution. The default value is 1 for efficiency. Note that all the algorithms are random, the smaller this value is, the more volatile the result will be. Our experiment set this value as 5.
 
