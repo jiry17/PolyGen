@@ -165,7 +165,6 @@ if __name__ == "__main__":
         os.system("mkdir result_cache")
 
     benchmark_path = "../benchmark/CLIA_benchmark"
-    #benchmark_path = "../benchmark/small"
     
     args = parse_args()
 

@@ -45,12 +45,12 @@ $ ./install
 
 
    ```bash
-   $ cd recommend/my-euphony
-   $ . bin/setenv  
-   $ ./bin/run_int_eusolver ../../benchmark/CLIA_benchmark/max3.sl
+      $ cd recommend/my-euphony
+      $ . bin/setenv  
+      $ ./bin/run_int_eusolver ../../benchmark/CLIA_benchmark/max3.sl
    ```
-   The  expected output is the same as 1
 
+    The  expected output is the same as 1
 
 3.   Test whether *Esolver* is successfully installed :
 

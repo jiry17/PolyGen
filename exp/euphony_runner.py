@@ -23,7 +23,6 @@ def get_model_path(benchmark_name):
     for i in range(3):
         train_set = os.path.join(model_path, str(i) + "/" + benchmark_name)
         if not os.path.exists(train_set):
-            assert file_pos is None
             file_pos = i
     assert file_pos is not None
     pos = os.path.join(model_path, str(file_pos) + ".model")

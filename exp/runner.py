@@ -14,7 +14,6 @@ def run_cegis(parse_result, run_with_example):
     while True:
         program, param = run_with_example(parse_result, example_space)
         inp, oup = verify(program, param, parse_result["cons"])
-        # print(inp, oup, program)
         if inp is None: return program, len(example_space)
         example_space.append((inp, oup))
 
@@ -34,25 +33,18 @@ def run(benchmark_folder, runner, name, clear_cache, skip_failed_cegis):
         random_and_skip = True
         cegis_cache_file = "result_cache/" + name[:-6] + "cegis.json"
         cegis_cache = load_cache(cegis_cache_file)
-        #print(cegis_cache_file)
-
 
     if cache is None: cache = {}
     if clear_cache: 
         cache = {}
     benchmark_list = reorder_benchmark(_collect_benchmark(benchmark_folder))
     is_changed = False
-    #recal_list = ["qm_neg_5.sl", "qm_neg_eq_5.sl"]
-    recal_list = []
-    #benchmark_list = list(filter(lambda x: "array_search" in x[0] and x[1] == 13, benchmark_list))
-    #print(KIntMin,KIntMax,KRepeatNum ,KTimeLimit ,KMemoryLimit ,KExampleLimit)
     for ind, (type_name, size, benchmark) in enumerate(benchmark_list):
-        #if "mpg_example" in benchmark: continue
-        #if "array_search" not in benchmark: continue
         print("run %d/%d: %s" % (ind, len(benchmark_list), benchmark))
-        if benchmark not in recal_list and benchmark in cache:
+        if benchmark in cache:
             assert len(cache[benchmark]) == KRepeatNum
             continue
+
         cache[benchmark] = []
         if(random_and_skip and _check_all_fail(cegis_cache.get(benchmark))):
             for _ in range(KRepeatNum): cache[benchmark].append({"status": "fail"})
