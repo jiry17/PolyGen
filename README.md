@@ -29,6 +29,8 @@ The artifact for OOPSLA 21 submission #542 "Generalizable Synthesis Through Unif
    $ ./install
    ```
 
+**Note:** In some cases, you may have to switch the static library of *gurobi* from `libgurobi_g++4.2.a` to `libgurobi_g++5.2.a`. It can be done by re-linking file `libgurobi_g++.a` in `GUROBIPATH/lib`.
+
 #### Run tests
 
 1. Test whether *Eusolver* is successfully installed :
