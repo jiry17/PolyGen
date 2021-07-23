@@ -2,7 +2,7 @@
 
 mkdir build
 
-build euphony and eusolver
+#build euphony and eusolver
 pushd recommend
 git clone --recursive https://gitee.com/jiry_2/my-euphony.git
 pushd my-euphony
@@ -11,14 +11,14 @@ popd
 popd
 
 
-build esolver
+#build esolver
 pushd recommend/esolver
 mkdir thirdparty/libeusolver/build
 ./scripts/build.sh
 popd
 
 
-install gurobi
+#install gurobi
 wget https://packages.gurobi.com/9.1/gurobi9.1.2_linux64.tar.gz
 tar xvfz gurobi9.1.2_linux64.tar.gz
 pushd gurobi912/linux64
