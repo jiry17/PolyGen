@@ -35,4 +35,4 @@ include_directories(${LIBPROFILER_INCLUDE_DIRS})
 link_directories(GUROBIPATH/lib/)
 
 add_executable(run main/main.cpp)
-target_link_libraries(run parser_lib solver_lib parser_lib basic_lib ${Jsoncpp_LIBRARY} ${LIBPROFILER_LIBRARIES} glog gflags libgurobi_c++.a libgurobi91.so ${Z3_FILE})
+target_link_libraries(run parser_lib solver_lib parser_lib basic_lib ${Jsoncpp_LIBRARY} ${LIBPROFILER_LIBRARIES} glog gflags libgurobi_g++5.2.a libgurobi91.so ${Z3_FILE})
