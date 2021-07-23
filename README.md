@@ -12,6 +12,7 @@ The artifact for OOPSLA 21 submission #542 "Generalizable Synthesis Through Unif
 
    ```bash
    $ apt-get install cmake git wget libgoogle-glog-dev python3.5-tk python3-pip libboost-all-dev libjsoncpp-dev libboost-all-dev libgoogle-perftools-dev
+   $ pip install --upgrade 9.0.1
    $ pip3 install pyparsing z3-solver matplotlib==2
    ```
 
