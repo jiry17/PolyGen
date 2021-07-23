@@ -9,7 +9,7 @@ The artifact for OOPSLA 21 submission #542 "Generalizable Synthesis Through Unif
 1. Install dependencies
 
    ```bash
-   $ apt-get install cmake libgoogle-glog-dev python3-pip libboost-all-dev libjsoncpp-dev libboost-all-dev libgoogle-perftools-dev
+   $ apt-get install cmake git wget libgoogle-glog-dev python3-pip libboost-all-dev libjsoncpp-dev libboost-all-dev libgoogle-perftools-dev
    $ pip3 install pyparsing z3-solver matplotlib 
    ```
 
