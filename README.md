@@ -27,7 +27,7 @@ The artifact for OOPSLA 21 submission #542 "Generalizable Synthesis Through Unif
    $ ./install
    ```
 
-4. *PolyGon* takes *gurobi* as the underlying ILP solver. Therefore, a license of *gurobi* is required. You can get a academic license of gurobi via the following steps.
+4. *PolyGen* takes *gurobi* as the underlying ILP solver. Therefore, a license of *gurobi* is required. You can get a academic license of gurobi via the following steps.
 
    1. Register or log in at the [webside](https://www.gurobi.com/) of gurobi.
    2. Visit the [Free Academic License page](https://www.gurobi.com/downloads/end-user-license-agreement-academic/).

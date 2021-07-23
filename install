@@ -36,7 +36,7 @@ then
 fi
 
 #configure z3
-pushd recommend/my-euphony/thirdparty/z3/build
+pushd recommend/my-euphony/thirdparty/z3
 z3path=`pwd`
 echo ${z3path}
 popd

@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 3.5.1)
 project(cpp)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
-    link_directories(Z3PATH)
+    link_directories(Z3PATH/build)
     set(Z3_FILE libz3.so)
     ADD_DEFINITIONS(-DLINUX)
 else()
-    link_directories(Z3PATH)
+    link_directories(Z3PATH/build)
     set(Z3_FILE libz3.dylib)
 endif()
 
@@ -17,6 +17,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 include_directories(. ./basic ./solver ./parser)
 INCLUDE_DIRECTORIES(GUROBIPATH/include)
+INCLUDE_DIRECTORIES(Z3PATH/src/api/c++)
+INCLUDE_DIRECTORIES(Z3PATH/src/api)
 
 ADD_DEFINITIONS(-DDEBUG)
 
