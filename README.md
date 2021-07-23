@@ -4,7 +4,9 @@ The artifact for OOPSLA 21 submission #542 "Generalizable Synthesis Through Unif
 
 ### Install 
 
-#### Build from source (Test on Ubuntu 18.04) 
+#### Build from source (Test on Ubuntu 16.04) 
+
+**Note**: It is highly recommended to install this artifact on Ubuntu 16.04 because the baseline solvers *Eusolver*, *Euphony* and *Esolver* requires `python3.5` as the default version of `python3`. If Ubuntu 18.04 or higher versions are used, *Polygen* will be installed normally but *Eusolver*, *Euphony*, and *Esolver* will fail unless python3.5 is installed manually.
 
 1. Install dependencies
 
@@ -27,13 +29,14 @@ The artifact for OOPSLA 21 submission #542 "Generalizable Synthesis Through Unif
    $ ./install
    ```
 
-4. *PolyGen* takes *gurobi* as the underlying ILP solver. Therefore, a license of *gurobi* is required. You can get a academic license of gurobi via the following steps.
+4. *Polygen* takes *gurobi* as the underlying ILP solver. Therefore, a license of *gurobi* is required. You can get an academic license of gurobi via the following steps.
 
-   1. Register or log in at the [webside](https://www.gurobi.com/) of gurobi.
+   1. Register or login at the [webside](https://www.gurobi.com/) of gurobi.
    2. Visit the [Free Academic License page](https://www.gurobi.com/downloads/end-user-license-agreement-academic/).
    3. Click ***I Accept These Conditions***.
    4. Get a command like  `grbgetkey x...x` at the bottom of the webpage.
-   5. Copy and paste this command and execute it in your terminal.
+   5. Replace `grbgetkey` with `gurobi912/linux64/bin/grbgetkey` and execute this command under the root directory of the project.
+   6. Test whether the license woirks normally by executing `gurobi912/linux64/bin/gurobi.sh` under the root directory of the project. 
 
 #### Run tests
 
