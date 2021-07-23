@@ -33,7 +33,7 @@ The artifact for OOPSLA 21 submission #542 "Generalizable Synthesis Through Unif
 
 #### Run tests
 
-1. Test whether *Eusolver* is successfully installed :
+1. Test whether *Euphony* is successfully installed :
 
    ```bash
    $ cd recommend/my-euphony
