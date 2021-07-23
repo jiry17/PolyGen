@@ -14,22 +14,26 @@ The artifact for OOPSLA 21 submission #542 "Generalizable Synthesis Through Unif
    ```
 
 
-2. Install *gurobi* from https://www.gurobi.com/
-
-3. Clone *Polygen* 
+2. Clone *Polygen* 
 
    ```bash
-   $ git clone --recursive https://github.com/jiry17/PolyGen
+   $ git clone https://github.com/jiry17/PolyGen
    ```
 
 
-4. Build the whole project under the root directory of the project. The installation requires the path of *gurobi*. 
+3. Build the whole project under the root directory of the project.
 
    ```bash
    $ ./install
    ```
 
-**Note:** In some cases, you may have to switch the static library of *gurobi* from `libgurobi_g++4.2.a` to `libgurobi_g++5.2.a`. It can be done by re-linking file `libgurobi_g++.a` in `GUROBIPATH/lib`.
+4. *PolyGon* takes *gurobi* as the underlying ILP solver. Therefore, a license of *gurobi* is required. You can get a academic license of gurobi via the following steps.
+
+   1. Register or log in at the [webside](https://www.gurobi.com/) of gurobi.
+   2. Visit the [Free Academic License page](https://www.gurobi.com/downloads/end-user-license-agreement-academic/).
+   3. Click ***I Accept These Conditions***.
+   4. Get a command like  `grbgetkey x...x` at the bottom of the webpage.
+   5. Copy and paste this command and execute it in your terminal.
 
 #### Run tests
 
@@ -49,14 +53,15 @@ The artifact for OOPSLA 21 submission #542 "Generalizable Synthesis Through Unif
 
 2. Test whether *Eusolver* is successfully installed :
 
-
    ```bash
-      $ cd recommend/my-euphony
-      $ . bin/setenv  
-      $ ./bin/run_int_eusolver ../../benchmark/CLIA_benchmark/max3.sl
+   $ cd recommend/my-euphony
+   $ . bin/setenv  
+   $ ./bin/run_int_eusolver ../../benchmark/CLIA_benchmark/max3.sl
    ```
 
-    The  expected output is the same as 1
+   The  expected output is the same as 1.
+
+
 
 3.   Test whether *Esolver* is successfully installed :
 
