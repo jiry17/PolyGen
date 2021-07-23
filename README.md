@@ -11,8 +11,8 @@ The artifact for OOPSLA 21 submission #542 "Generalizable Synthesis Through Unif
 1. Install dependencies
 
    ```bash
-   $ apt-get install cmake git wget libgoogle-glog-dev python3-pip libboost-all-dev libjsoncpp-dev libboost-all-dev libgoogle-perftools-dev
-   $ pip3 install pyparsing z3-solver matplotlib 
+   $ apt-get install cmake git wget libgoogle-glog-dev python3.5-tk python3-pip libboost-all-dev libjsoncpp-dev libboost-all-dev libgoogle-perftools-dev
+   $ pip3 install pyparsing z3-solver matplotlib==2
    ```
 
 
@@ -130,6 +130,7 @@ $ ./run_exp -c R
 1. `-exp`: the id of the experiment you want to run. All experiments will be executed by default.
 2. `-c`: whether to clear the cache: `R` represents yes while `C` represents no, and the default value is `C`. 
 3. `-s`: whether to skip random test when the same benchmark fails in cegis test:  `1` represents yes while  `0`  represents no. The default value is `1`. 
+4. `-d`: whether to draw the figures: `1` represents yes while `0` represents no. The default value is `0`.
 
 Some parameters can be set in config.py
 
