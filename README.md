@@ -1,6 +1,8 @@
 # Polygen
 
-The artifact for OOPSLA 21 submission #542 "Generalizable Synthesis Through Unification".
+Artifact for OOPSLA'21: Generalizable Synthesis Through Unification.
+
+The updates of this project can be found on [GitHub](https://github.com/jiry17/PolyGen).
 
 ### Install 
 
